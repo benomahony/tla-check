@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: benomahony/tla-check@v1
+      - uses: benomahony/tla-check@v0.1.0
 ```
 
 Every `.cfg` file with a `.tla` file of the same name beside it is checked, so `spec/Overwatch.cfg` checks `spec/Overwatch.tla`. Other `.cfg` files, such as `setup.cfg`, are left out. The job fails if nothing qualifies.
