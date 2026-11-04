@@ -1,0 +1,31 @@
+name: TLA+ check
+description: Model check TLA+ specifications with TLC, annotating each violation on the definition it breaks.
+branding:
+  icon: check-circle
+  color: blue
+
+inputs:
+  configs:
+    description: Space-separated glob patterns of TLC configuration files. Each is checked against the .tla file of the same name beside it; other .cfg files are left out.
+    default: "**/*.cfg"
+  args:
+    description: Extra TLC arguments.
+    default: -workers auto
+  version:
+    description: The TLC release to use.
+    default: 1.7.4
+  sha256:
+    description: The SHA-256 of that release's tla2tools.jar, needed for any version other than 1.7.4.
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Model check with TLC
+      shell: bash
+      env:
+        CONFIGS: ${{ inputs.configs }}
+        ARGS: ${{ inputs.args }}
+        VERSION: ${{ inputs.version }}
+        SHA256: ${{ inputs.sha256 }}
+      run: python3 "$GITHUB_ACTION_PATH/tla_check.py" --configs "$CONFIGS" --args "$ARGS" --version "$VERSION" --sha256 "$SHA256"
